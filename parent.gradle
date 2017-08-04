@@ -1,0 +1,110 @@
+/*
+* Scratch file for something that can be parent.gradle
+*
+* */
+
+// 1. Repository
+repositories {
+    maven {
+        name "release"
+        url "https://arttest.jfrog.io/arttest/libs-release-local"
+    }
+    maven {
+        name "snapshot"
+        url "https://arttest.jfrog.io/arttest/libs-snapshot-local"
+    }
+    mavenLocal()
+
+}
+
+// 2. Distribution management
+// Config for maven project. Should be replaced with config for gradle.
+allprojects {
+    afterEvaluate { project ->
+        project.apply plugin: 'java'
+        project.apply plugin: 'maven'
+        uploadArchives {
+            repositories {
+                mavenDeployer {
+                    pom.packaging = project.packaging
+                    pom.groupId = project.group
+                    pom.version = project.version
+                    pom.artifactId = project.artifactid
+                    if(project.version.endsWith('-SNAPSHOT')) {
+                        repository(url: 'https://arttest.jfrog.io/arttest/libs-snapshot-local') {
+                            authentication(userName: RepoUsernameProp, password: repoPasswordProp);
+                        }
+                    }
+                    else {
+                        repository(url: 'https://arttest.jfrog.io/arttest/libs-release-local') {
+                            authentication(userName: RepoUsernameProp, password: repoPasswordProp);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+// 3. Init script block
+/*
+initscript {
+    repositories {
+        mavenCentral()
+    }
+
+}
+*/
+
+// 4. Profiling
+allprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty("profile-name1")) {
+            project.apply plugin: 'java'
+            //<Do what ever you want to do>
+        }
+        if (project.hasProperty("profil-name2")) {
+            project.apply plugin: 'java'
+            //<Do what ever you want to do>
+        }
+    }
+
+}
+
+// 5. Additional checks
+// 5.1. Jacoco
+project.apply plugin: "jacoco"
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
+jacocoTestReport {
+    description = "Generate Jacoco coverage reports after running tests."
+    sourceDirectories = files('src/java')
+    classDirectories = files('build/classes/main')
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.enabled true
+    }
+}
+jacocoTestReport.dependsOn test
+
+// 5.2. Checkstyle
+project.apply plugin: 'checkstyle'
+checkstyle {
+    ignoreFailures = true
+    configFile = file("/jenkins/checks.xml")
+}
+
+
+// 5.3. Findbugs
+project.apply plugin: 'findbugs'
+findbugs {
+    ignoreFailures = true
+    effort = "max"
+    reportLevel = "high"
+}
+
+// 5.4. Adding checks dependecy
+check.dependsOn checkstyleMain, pmdMain, findbugsMain, jacocoTestReport

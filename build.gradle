@@ -1,0 +1,89 @@
+buildscript {
+    apply from: 'https://gist.githubusercontent.com/artzag/ff27d139125dd5650a00b4ee16a97903/raw/65fb2f185413a86b0f6ea3bc69c618e30a259823/parent.gradle'
+
+    repositories {
+        jcenter()
+    }
+
+}
+
+plugins {
+
+    id 'net.researchgate.release' version '2.4.0'
+    id 'base'
+
+}
+
+
+apply plugin: 'maven'
+afterReleaseBuild.dependsOn { allprojects.uploadArchives }
+
+description = 'Simple Gradle build'
+
+
+release {
+    failOnCommitNeeded = true
+    failOnPublishNeeded = true
+    failOnSnapshotDependencies = true
+    failOnUnversionedFiles = true
+    failOnUpdateNeeded = true
+    revertOnFail = true
+    preCommitText = ''
+    preTagCommitMessage = '[Gradle Release Plugin] - pre tag commit: '
+    tagCommitMessage = '[Gradle Release Plugin] - creating tag: '
+    newVersionCommitMessage = '[Gradle Release Plugin] - new version commit: '
+    tagTemplate = '${version}'
+    versionPropertyFile = 'gradle.properties'
+    versionProperties = []
+    buildTasks = ['build']
+    /*
+    versionPatterns = [
+            /(\d+)([^\d]*$)/: { Matcher m, Project p -> m.replaceAll("${(m[0][1] as int) + 1}${m[0][2]}") }
+    ]
+    */
+    scmAdapters = [
+            net.researchgate.release.GitAdapter
+            //,net.researchgate.release.SvnAdapter
+            //,net.researchgate.release.HgAdapter
+            //,net.researchgate.release.BzrAdapter
+    ]
+
+    git {
+        requireBranch = 'development'
+        pushToRemote = 'origin'
+        pushToBranchPrefix = ''
+        commitVersionFileOnly = false
+        //signTag = false
+    }
+
+    /*
+    svn {
+        username = null
+        password = null
+        pinExternals = false   // allows to pin the externals when tagging, requires subversion client >= 1.9.0
+    }
+    */
+}
+
+task copy(type: Copy) {
+    from 'src'
+    into 'dest'
+}
+
+task zip(type: Zip) {
+    from 'src'
+}
+
+task hello {
+    doLast {
+        println 'Hello, World!'
+    }
+}
+
+task dumpVersion {
+    def file = new File("$projectDir/version.txt")
+    file.createNewFile()
+    file.text="""$version"""
+}
+
+
