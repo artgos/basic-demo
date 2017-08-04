@@ -80,10 +80,11 @@ task hello {
     }
 }
 
+/*
 task dumpVersion {
     def file = new File("$projectDir/version.txt")
     file.createNewFile()
     file.text="""$version"""
 }
-
+*/
 
