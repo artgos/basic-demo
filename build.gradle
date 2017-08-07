@@ -1,5 +1,6 @@
 buildscript {
-    apply from: 'https://gist.githubusercontent.com/artzag/ff27d139125dd5650a00b4ee16a97903/raw/65fb2f185413a86b0f6ea3bc69c618e30a259823/parent.gradle'
+    //apply from: 'https://gist.githubusercontent.com/artzag/ff27d139125dd5650a00b4ee16a97903/raw/6c0971f7c0c503c70df54eaf58c9ec4a2c33b6ec/parent.gradle'
+    apply from: './parent.gradle'
 
     repositories {
         jcenter()
@@ -7,9 +8,10 @@ buildscript {
 
 }
 
+
 plugins {
 
-    id 'net.researchgate.release' version '2.4.0'
+    id 'net.researchgate.release' version '2.6.0'
     id 'base'
 
 }
@@ -19,6 +21,7 @@ apply plugin: 'maven'
 afterReleaseBuild.dependsOn { allprojects.uploadArchives }
 
 description = 'Simple Gradle build'
+
 
 
 release {
@@ -38,11 +41,12 @@ release {
     buildTasks = ['build']
     /*
     versionPatterns = [
-            /(\d+)([^\d]*$)/: { Matcher m, Project p -> m.replaceAll("${(m[0][1] as int) + 1}${m[0][2]}") }
+            /(\d+)([^\d]*$)/: { Matcher <m, Project p -> m.replaceAll("${(m[0][1] as int) + 1}${m[0][2]}") }
     ]
     */
     scmAdapters = [
             net.researchgate.release.GitAdapter
+
             //,net.researchgate.release.SvnAdapter
             //,net.researchgate.release.HgAdapter
             //,net.researchgate.release.BzrAdapter
@@ -80,11 +84,4 @@ task hello {
     }
 }
 
-/*
-task dumpVersion {
-    def file = new File("$projectDir/version.txt")
-    file.createNewFile()
-    file.text="""$version"""
-}
-*/
 
