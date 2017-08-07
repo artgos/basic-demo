@@ -5,7 +5,7 @@
 
 // 1. Repository
 repositories {
-/*
+
     maven {
         name "release"
         url "https://arttest.jfrog.io/arttest/libs-release"
@@ -15,7 +15,7 @@ repositories {
         url "https://arttest.jfrog.io/arttest/libs-snapshot"
     }
 
-    */
+
     mavenLocal()
     jcenter()
     mavenCentral()
@@ -37,7 +37,6 @@ allprojects {
                 println ' --- MAVEN PACKAGE TYPE PROFILE!'
             }
 
-            project.apply plugin: 'net.researchgate.release'
             project.apply plugin: 'base'
             project.apply plugin: 'java'
             project.apply plugin: 'maven'

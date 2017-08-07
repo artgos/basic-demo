@@ -1,6 +1,6 @@
 buildscript {
-    //apply from: 'https://gist.githubusercontent.com/artzag/ff27d139125dd5650a00b4ee16a97903/raw/6c0971f7c0c503c70df54eaf58c9ec4a2c33b6ec/parent.gradle'
-    apply from: './parent.gradle'
+    apply from: 'https://gist.githubusercontent.com/artzag/ff27d139125dd5650a00b4ee16a97903/raw/72f14b040aef3e753d53984bee1e747dd52160a6/parent.gradle'
+    //apply from: './parent.gradle'
 
     repositories {
         jcenter()
@@ -8,21 +8,13 @@ buildscript {
 
 }
 
-
-plugins {
-
-    id 'net.researchgate.release' version '2.6.0'
-    id 'base'
-
-}
-
-
-apply plugin: 'maven'
-afterReleaseBuild.dependsOn { allprojects.uploadArchives }
-
 description = 'Simple Gradle build'
 
 
+
+apply plugin: 'net.researchgate.release'
+
+afterReleaseBuild.dependsOn { allprojects.uploadArchives }
 
 release {
     failOnCommitNeeded = true
