@@ -45,7 +45,7 @@ release {
     ]
 
     git {
-        requireBranch = 'development'
+        requireBranch = 'add_docker'
         pushToRemote = 'origin'
         pushToBranchPrefix = ''
         commitVersionFileOnly = false
