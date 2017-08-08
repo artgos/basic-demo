@@ -1,6 +1,7 @@
 buildscript {
-    apply from: 'https://gist.githubusercontent.com/artzag/ff27d139125dd5650a00b4ee16a97903/raw/72f14b040aef3e753d53984bee1e747dd52160a6/parent.gradle'
-    //apply from: './parent.gradle'
+    //apply from: 'https://gist.githubusercontent.com/artzag/ff27d139125dd5650a00b4ee16a97903/raw/72f14b040aef3e753d53984bee1e747dd52160a6/parent.gradle'
+    //
+    apply from: './parent.gradle'
 
     repositories {
         jcenter()
@@ -9,7 +10,6 @@ buildscript {
 }
 
 description = 'Simple Gradle build'
-
 
 
 apply plugin: 'net.researchgate.release'
@@ -31,17 +31,8 @@ release {
     versionPropertyFile = 'gradle.properties'
     versionProperties = []
     buildTasks = ['build']
-    /*
-    versionPatterns = [
-            /(\d+)([^\d]*$)/: { Matcher <m, Project p -> m.replaceAll("${(m[0][1] as int) + 1}${m[0][2]}") }
-    ]
-    */
     scmAdapters = [
             net.researchgate.release.GitAdapter
-
-            //,net.researchgate.release.SvnAdapter
-            //,net.researchgate.release.HgAdapter
-            //,net.researchgate.release.BzrAdapter
     ]
 
     git {
@@ -49,31 +40,6 @@ release {
         pushToRemote = 'origin'
         pushToBranchPrefix = ''
         commitVersionFileOnly = false
-        //signTag = false
     }
 
-    /*
-    svn {
-        username = null
-        password = null
-        pinExternals = false   // allows to pin the externals when tagging, requires subversion client >= 1.9.0
-    }
-    */
 }
-
-task copy(type: Copy) {
-    from 'src'
-    into 'dest'
-}
-
-task zip(type: Zip) {
-    from 'src'
-}
-
-task hello {
-    doLast {
-        println 'Hello, World!'
-    }
-}
-
-
