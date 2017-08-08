@@ -14,7 +14,7 @@ description = 'Simple Gradle build'
 
 apply plugin: 'net.researchgate.release'
 
-afterReleaseBuild.dependsOn { allprojects.uploadArchives }
+afterReleaseBuild.dependsOn { pushImage }
 
 release {
     failOnCommitNeeded = true
