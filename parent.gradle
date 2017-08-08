@@ -95,8 +95,12 @@ allprojects {
                 registryCredentials {
                     //dependsOn helloPython
                     url = 'https://arttest-docker-local.jfrog.io'
-                    username = project.property('username')
-                    password = project.property('password')
+                    username = RepoUsernameProp
+                    password = repoPasswordProp
+
+                    //username = project.property('username')
+                    //password = project.property('password')
+
                     email = project.property('email')
                 }
             }
