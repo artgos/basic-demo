@@ -92,6 +92,7 @@ allprojects {
             File dockerfile = new File(projectDir, 'Dockerfile')
 
             docker {
+                println ' --- DOCKER ----- !'
                 registryCredentials {
                     //dependsOn helloPython
                     url = 'https://arttest-docker-local.jfrog.io'
@@ -106,14 +107,18 @@ allprojects {
             }
 
             uploadArchives {
+                println ' --- UPLOAD ----- !'
+
                 repositories {
-                    task buildImage(type: DockerBuildImage) {
+                    buildImage(type: DockerBuildImage) {
+                        println ' --- BUILD ----- !'
                         inputDir = projectDir
                         dockerFile = dockerfile
                         tag = "arttest-docker-local.jfrog.io/$artifactid:$version"
                     }
 
-                    task pushImage(type: DockerPushImage) {
+                    pushImage(type: DockerPushImage) {
+                        println ' --- PUSH ----- !'
                         dependsOn buildImage
                         imageName = buildImage.tag
                         tag = "$version"
